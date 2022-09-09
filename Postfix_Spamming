@@ -1,0 +1,19 @@
+cat /var/log/maillog  |grep "relay=local" |grep "relay=" |grep "status=sent" | wc -l // >> Total number of mail send
+
+cat /var/log/maillog | grep "smtp.*to=.*" | grep -c 250==>  7170 // >> accual mail delivered
+
+cat /var/log/mail.log |grep -v "relay=local" |grep "relay=" |grep  "status=sent" | awk {'print $4'} |sort -n|uniq -c|sort -n
+
+cat /var/log/maillog |grep -v "relay=local" |grep "relay=" |grep  "status=sent" | grep "Jul 27" |cut -d' ' -f2 | sort -n | uniq -c| sort -n
+
+grep @ /var/log/maillog  |grep -v "relay=local" |grep "relay=" |grep  "status=sent" | grep "Jul 27" |cut -d' ' -f2 | sort -n | uniq -c| sort -n
+
+grep @ /var/log/maillog  |grep -v "relay=local" |grep "relay=" |grep  "status=sent" |cut -d' ' -f 1,2,7 | sort -n | uniq -c| sort -n
+
+cat /var/log/maillog |grep -v "relay=local" |grep "relay=" |grep  "status=sent" | awk {'print $1 $2 $7'} |sort -k3n -k2n -k5n | grep "Aug8" | wc -l
+
+cat /var/log/maillog |grep -v "relay=local" |grep "relay=" |grep  "status=sent" | awk {'print $1 $2 $7'} |sort -n | uniq -c| sort -n
+
+cut -d ' ' -f 1 | sort | uniq -c | sort -nr | head
+
+cat mail.log | grep "postfix/smtp" | grep -P 'status=(?!sent)' | sed "s/^.*: \(.\+\):.* to=<\(.\+\)>.* status=\([^ ]\+\) (\(.*\))$/[\1] <\2> \3: \4/" |sort | uniq
